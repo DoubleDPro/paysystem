@@ -35,6 +35,8 @@ public class Client implements Person {
         this.surname = surname;
     }
 
+    public Client() {}
+
     /**
      * Идентификатор
      */

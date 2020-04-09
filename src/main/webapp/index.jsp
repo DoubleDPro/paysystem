@@ -8,7 +8,7 @@
 <body>
 <jsp:include page="views/headers/index_header.jsp"/>
 <div style="width: 100%; height: 800px;  display: flex; justify-content: center; align-items: center; background-color: gray">
-    <div align="center" style="width: 100%; height: 20%; background-color: #5a5a5a">
+    <div align="center" style="width: 100%; height: 160px; background-color: #5a5a5a">
         <form style="width: 100%; height: 100%" id="clientIdentForm" action="index" method="post">
             <table align="center" style="height: 100%; width: 100%; border-spacing: 10px">
                 <tr>

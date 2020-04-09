@@ -7,7 +7,7 @@
 <body>
 <table width="100%">
     <tr>
-        <td width="30%" align="left"><img src="views/headers/logo.jpg" width="303"/></td>
+        <td width="30%" align="left"><img src="${pageContext.servletContext.contextPath}/pics/logo.png" width="75"/></td>
         <td width="40%" align="center"><h1>Платежная система 1.0</h1></td>
         <td width="30%" align="right">
             <form id="profileHeaderSystemForm" action="profile.jsp" method="post">
