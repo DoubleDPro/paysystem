@@ -5,6 +5,10 @@ package ru.itparkkazan.enums;
  */
 public enum ClientCredential {
     /**
+     * Идентификатор
+     */
+    ID("id"),
+    /**
      * Имя
      */
     FIRST_NAME("firstname"),

@@ -1,8 +1,8 @@
 package ru.itparkkazan.processors;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.itparkkazan.beans.Account;
 import ru.itparkkazan.exceptions.ReplenishException;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Класс, содержащий операции над счетами

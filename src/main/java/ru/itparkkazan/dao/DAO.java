@@ -1,5 +1,7 @@
 package ru.itparkkazan.dao;
 
+import java.util.List;
+
 /**
  * Обобщенный интерфейс для получения объекта из БД
  *
@@ -13,6 +15,8 @@ public interface DAO<T> {
      */
     void insert(T t);
 
+    T get(String firstParam) throws Exception;
+
     /**
      * Метод получения информации из БД по 2 параметрам
      *
@@ -23,4 +27,5 @@ public interface DAO<T> {
      */
     T get(String firstParam, String secondParam) throws Exception;
 
+    List<T> getAll();
 }

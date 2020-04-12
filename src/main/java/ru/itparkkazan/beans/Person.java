@@ -1,7 +1,5 @@
 package ru.itparkkazan.beans;
 
-import java.util.List;
-
 /**
  * Интерфейс персона
  */
@@ -15,7 +13,7 @@ public interface Person {
 
     /**
      * Сеттер счетов
-     * @param personAccounts
+     * @param account
      */
-    void setAccounts(List<Account> personAccounts);
+    void setAccount(Account account);
 }

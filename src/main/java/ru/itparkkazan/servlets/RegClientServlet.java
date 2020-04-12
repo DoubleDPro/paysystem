@@ -1,7 +1,9 @@
 package ru.itparkkazan.servlets;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.itparkkazan.beans.Account;
 import ru.itparkkazan.beans.Client;
+import ru.itparkkazan.dao.AccountDAO;
 import ru.itparkkazan.dao.ClientDAO;
 import ru.itparkkazan.enums.ClientCredential;
 import ru.itparkkazan.enums.Page;
@@ -14,7 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Сервлет для страницы регистрации
@@ -32,13 +36,29 @@ public class RegClientServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         Map<String, String> clientCredentials = SessionUtil.readClientCredentials(httpServletRequest);
+        AccountDAO accounDAO = new AccountDAO();
+        List<Account> allAccountNumbers = accounDAO.getAll();
+        int accountNumber;
+        Account currentAccount;
+        do {
+            accountNumber = ThreadLocalRandom.current().nextInt(10000, 99999);
+            currentAccount = new Account(accountNumber);
+        } while (allAccountNumbers.contains(currentAccount));
+        accounDAO.insert(currentAccount);
+        try {
+            Account account = accounDAO.get(String.valueOf(accountNumber));
+        } catch (Exception e) {
+            //TODO обработать исключение
+        }
         //TODO Add validation
+        //TODO Доработать вставку идентификатора счета в таблицу клиента
         Client client = new Client(
                 clientCredentials.get(ClientCredential.LOGIN.getClientCredential()),
                 clientCredentials.get(ClientCredential.PSSWD.getClientCredential()),
                 clientCredentials.get(ClientCredential.FIRST_NAME.getClientCredential()),
                 clientCredentials.get(ClientCredential.SECOND_NAME.getClientCredential()),
                 clientCredentials.get(ClientCredential.SURNAME.getClientCredential()));
+        client.setAccount(currentAccount);
         ClientDAO clientDAO = new ClientDAO();
         clientDAO.insert(client);
         HttpSession httpSession = httpServletRequest.getSession();

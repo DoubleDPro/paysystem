@@ -8,6 +8,7 @@ import ru.itparkkazan.services.DataSourceService;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Slf4j
 public class PayDataDAO implements DAO<PayData> {
@@ -35,6 +36,12 @@ public class PayDataDAO implements DAO<PayData> {
 
     @Override
     public PayData get(String firstParam, String secondParam) throws Exception {
+        return null;
+    }
+
+    @Override
+    public List<PayData> getAll() {
+        //TODO Реализовать
         return null;
     }
 }

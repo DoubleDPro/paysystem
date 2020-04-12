@@ -27,4 +27,5 @@ public class PayData {
      * Дата/время
      */
     private Date date;
+
 }

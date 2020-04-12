@@ -1,7 +1,5 @@
 package ru.itparkkazan.beans;
 
-import java.util.List;
-
 /**
  * Класс для описания клиента
  */
@@ -30,6 +28,13 @@ public class Client implements Person {
         this.id = id;
         this.login = login;
         this.psswd = psswd;
+        this.firstname = firstname;
+        this.secondname = secondname;
+        this.surname = surname;
+    }
+
+    public Client(int id, String firstname, String secondname, String surname) {
+        this.id = id;
         this.firstname = firstname;
         this.secondname = secondname;
         this.surname = surname;
@@ -64,7 +69,7 @@ public class Client implements Person {
     /**
      * Список счетов
      */
-    private List<Account> clientAccounts;
+    private Account account;
 
     public int getId() {
         return id;
@@ -169,17 +174,17 @@ public class Client implements Person {
      *
      * @return список счетов
      */
-    public List<Account> getClientAccounts() {
-        return clientAccounts;
+    public Account getClientAccounts() {
+        return account;
     }
 
     /**
      * Сеттер списка счетов
      *
-     * @param clientAccounts список счетов
+     * @param account список счетов
      */
-    public void setAccounts(List<Account> clientAccounts) {
-        this.clientAccounts = clientAccounts;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     /**

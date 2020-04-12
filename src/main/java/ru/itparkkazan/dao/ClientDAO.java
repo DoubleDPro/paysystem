@@ -10,21 +10,14 @@ import ru.itparkkazan.services.DataSourceService;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Класс доступа к данным БД для клиента
  */
 @Slf4j
 public class ClientDAO implements DAO<Client> {
-
-    /**
-     * SQL-запрос для вставки в БД информации о клиенте
-     */
-    private static final String INSERT_INTO_CLIENT_VALUES = "INSERT INTO PAYSYSTEM.PAYSYSTEM.CLIENT (LOGIN, PSWD, FIRSTNAME, SECONDNAME, SURNAME) VALUES (?,?,?,?,?)";
-    /**
-     * SQL-запрос для получения из БД информации о клиенте по логину и паролю
-     */
-    private static final String SELECT_CLIENT_BY_LGN_AND_PSSWD = "SELECT * FROM PAYSYSTEM.PAYSYSTEM.CLIENT WHERE LOGIN = ? AND PSWD = ?";
 
     /**
      * Поле класса для работы с БД
@@ -37,7 +30,7 @@ public class ClientDAO implements DAO<Client> {
      */
     @Override
     public void insert(Client client) {
-        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(INSERT_INTO_CLIENT_VALUES)){
+        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(ClientQuerier.INSERT_INTO_CLIENT_VALUES)){
             preparedStatement.setString(1, client.getLogin());
             preparedStatement.setString(2, client.getPsswd());
             preparedStatement.setString(3, client.getFirstname());
@@ -47,7 +40,7 @@ public class ClientDAO implements DAO<Client> {
         } catch (DataSourceServiceException e) {
             log.error("Ошибка подключения к БД при попытке вставки записи с данными клиента", e);
         } catch (SQLException e) {
-            log.error("Ошибка запроса при попытке вставки записи с данными клиента " + INSERT_INTO_CLIENT_VALUES, e);
+            log.error("Ошибка запроса при попытке вставки записи с данными клиента " + ClientQuerier.INSERT_INTO_CLIENT_VALUES, e);
         } finally {
             dataSourceService.closeConnection();
         }
@@ -62,7 +55,7 @@ public class ClientDAO implements DAO<Client> {
      */
     @Override
     public Client get(String lgn, String psswd) throws UnregistredClientException {
-        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(SELECT_CLIENT_BY_LGN_AND_PSSWD)) {
+        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(ClientQuerier.SELECT_CLIENT_BY_LGN_AND_PSSWD)) {
             preparedStatement.setString(1, lgn);
             preparedStatement.setString(2, psswd);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -80,7 +73,31 @@ public class ClientDAO implements DAO<Client> {
             log.error("Ошибка при получении данных о клиенте с логином " + lgn, e);
             return null;
         } catch (SQLException e) {
-            log.error("Ошибка при выполнении запроса " + SELECT_CLIENT_BY_LGN_AND_PSSWD, e);
+            log.error("Ошибка при выполнении запроса " + ClientQuerier.SELECT_CLIENT_BY_LGN_AND_PSSWD, e);
+            return null;
+        } finally {
+            dataSourceService.closeConnection();
+        }
+    }
+
+    @Override
+    public List<Client> getAll() {
+        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(ClientQuerier.SELECT__ALL_CLIENTS)) {
+            List<Client> allClients = new LinkedList<>();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = Integer.parseInt(resultSet.getString(ClientCredential.ID.getClientCredential()));
+                String firstName = resultSet.getString(ClientCredential.FIRST_NAME.getClientCredential());
+                String secondName = resultSet.getString(ClientCredential.SECOND_NAME.getClientCredential());
+                String surname = resultSet.getString(ClientCredential.SURNAME.getClientCredential());
+                allClients.add(new Client(id, firstName, secondName, surname));
+            }
+            return allClients;
+        } catch (DataSourceServiceException e) {
+            log.error("Ошибка при получении списка всех клиентов", e);
+            return null;
+        } catch (SQLException e) {
+            log.error("Ошибка при выполнении запроса " + ClientQuerier.SELECT__ALL_CLIENTS, e);
             return null;
         } finally {
             dataSourceService.closeConnection();
