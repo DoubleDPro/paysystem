@@ -33,7 +33,7 @@ public class AccountTest {
      */
     @Test
     public void isAccountBlockedTest() {
-        account = Account.builder().isBlocked(new Boolean("true")).build();
+//        account = Account.builder().isBlocked(new Boolean("true")).build();
     }
 
 }

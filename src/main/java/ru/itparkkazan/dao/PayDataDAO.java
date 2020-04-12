@@ -35,6 +35,11 @@ public class PayDataDAO implements DAO<PayData> {
     }
 
     @Override
+    public PayData get(String firstParam) throws Exception {
+        return null;
+    }
+
+    @Override
     public PayData get(String firstParam, String secondParam) throws Exception {
         return null;
     }

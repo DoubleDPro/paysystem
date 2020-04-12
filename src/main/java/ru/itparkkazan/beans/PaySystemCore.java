@@ -51,13 +51,13 @@ public class PaySystemCore {
      * Метод вывода полной информации клиент-счета ядра платежной системы
      */
     public void showAllClientAccounts() {
-        for (Map.Entry<Client, List<Account>> entry : paySystemClientAccounts.entrySet()) {
+        /*for (Map.Entry<Client, List<Account>> entry : paySystemClientAccounts.entrySet()) {
             Client client = entry.getKey();
             System.out.println(client.getFullName());
             for (Account account : client.getClientAccounts()) {
                 System.out.println(String.join("", "   ", account.toString()));
             }
-        }
+        }*/
     }
 
 }

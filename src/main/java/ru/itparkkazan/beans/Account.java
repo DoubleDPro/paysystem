@@ -1,12 +1,14 @@
 package ru.itparkkazan.beans;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * Класс для описания объекта "Счет"
  */
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

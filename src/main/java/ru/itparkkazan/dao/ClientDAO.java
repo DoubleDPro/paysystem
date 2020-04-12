@@ -46,6 +46,11 @@ public class ClientDAO implements DAO<Client> {
         }
     }
 
+    @Override
+    public Client get(String firstParam) throws Exception {
+        return null;
+    }
+
     /**
      * Метод получения объекта клиента из БД по логину и паролю
      * @param lgn логин
