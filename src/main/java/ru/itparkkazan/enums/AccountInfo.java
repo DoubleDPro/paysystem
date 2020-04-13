@@ -8,11 +8,11 @@ public enum AccountInfo {
     /**
      * Имя
      */
-    ACCOUNT_NUMBER("firstname"),
+    ACCOUNT_NUMBER("account_number"),
     /**
      * Отчество
      */
-    SUM("secondname");
+    SUM("sum");
 
     /**
      * Аутентификационные данные

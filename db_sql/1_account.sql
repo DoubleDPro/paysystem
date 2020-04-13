@@ -1,27 +1,25 @@
-create table if not exists paysystem.client
+create table if not exists paysystem.account
 (
-    id serial not null
-        constraint client_pk
-            primary key,
-    login varchar not null,
-    pswd varchar not null,
-    firstname varchar not null,
-    secondname varchar not null,
-    surname varchar,
-    account_id integer default 0 not null
+	id serial not null
+		constraint account_pk
+			primary key,
+	account_number integer not null,
+	sum integer default 0 not null
 );
 
-comment on table paysystem.client is 'Таблица клиентов';
+comment on table paysystem.account is 'Таблица, содержащая счета криентов';
 
-comment on column paysystem.client.id is 'Идентификатор';
+comment on column paysystem.account.id is 'Идентификатор';
 
-comment on column paysystem.client.account_id is 'Идентификатор счета';
+comment on column paysystem.account.account_number is 'Номер счета';
 
-alter table paysystem.client owner to postgres;
+comment on column paysystem.account.sum is 'Сумма на счете';
 
-create unique index if not exists client_id_uindex
-    on paysystem.client (id);
+alter table paysystem.account owner to postgres;
 
-create unique index if not exists client_login_uindex
-    on paysystem.client (login);
+create unique index if not exists account_account_number_uindex
+	on paysystem.account (account_number);
+
+create unique index if not exists account_id_uindex
+	on paysystem.account (id);
 
