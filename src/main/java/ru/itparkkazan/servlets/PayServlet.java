@@ -11,10 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+/**
+ * Сервлет для обратотки оплаты
+ */
 @Slf4j
 @WebServlet(name="pay", urlPatterns = "/pay")
 public class PayServlet extends HttpServlet {
 
+    /**
+     * Метод обработки POST-запроса
+     * @param httpServletRequest запрос
+     * @param httpServletResponse ответ
+     */
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String payTargetCount = httpServletRequest.getParameter("payTargetCount");

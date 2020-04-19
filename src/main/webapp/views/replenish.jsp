@@ -6,11 +6,11 @@
 </head>
 <body>
 <div align="center" style="width: 100%; height: 160px; background-color: #5a5a5a">
-    <form style="width: 100%; height: 100%" id="replenishForm" action="/replenish" method="post">
+    <form style="width: 100%; height: 100%" id="replenishForm" action="../replenish" method="post">
         <table style="height: 100%">
             <tr>
                 <td><label>Сумма</label></td>
-                <td><input type="number" name="replenishSum"></td>
+                <td><input type="number" name="replenish_sum"></td>
             </tr>
             <tr>
                 <td colspan="2"><input style="width: 100%" type="submit" value="Пополнить"></td>

@@ -27,7 +27,11 @@ public enum ClientCredential {
     /**
      * Пароль
      */
-    PSSWD("psswd");
+    PSSWD("psswd"),
+    /**
+     * Идентификатор счета
+     */
+    ACCOUNT_ID("account_id");
 
     /**
      * Аутентификационные данные

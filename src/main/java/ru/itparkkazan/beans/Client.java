@@ -9,6 +9,25 @@ public class Client implements Person {
 
     /**
      * Конструктор
+     * @param id идентификатор
+     * @param login логин
+     * @param psswd пароль
+     * @param firstname имя
+     * @param secondname отчество
+     * @param surname фамилия
+     * @param account счет
+     */
+    public Client(int id, String login, String psswd, String firstname, String secondname, String surname, Account account) {
+        this.id = id;
+        this.login = login;
+        this.psswd = psswd;
+        this.firstname = firstname;
+        this.secondname = secondname;
+        this.surname = surname;
+        this.account = account;
+    }
+    /**
+     * Конструктор
      *
      * @param login      логин
      * @param psswd      пароль
@@ -24,6 +43,15 @@ public class Client implements Person {
         this.surname = surname;
     }
 
+    /**
+     * Конструктор
+     * @param id идентификатор
+     * @param login логин
+     * @param psswd пароль
+     * @param firstname имя
+     * @param secondname отчество
+     * @param surname фамилия
+     */
     public Client(int id, String login, String psswd, String firstname, String secondname, String surname) {
         this.id = id;
         this.login = login;
@@ -33,6 +61,31 @@ public class Client implements Person {
         this.surname = surname;
     }
 
+    /**
+     * Конструктор
+     * @param login логин
+     * @param psswd пароль
+     * @param firstname имя
+     * @param secondname отчество
+     * @param surname фамилия
+     * @param account аккаунт
+     */
+    public Client(String login, String psswd, String firstname, String secondname, String surname, Account account) {
+        this.login = login;
+        this.psswd = psswd;
+        this.firstname = firstname;
+        this.secondname = secondname;
+        this.surname = surname;
+        this.account = account;
+    }
+
+    /**
+     * Конструктор
+     * @param id идентификатор
+     * @param firstname имя
+     * @param secondname отчество
+     * @param surname фамилия
+     */
     public Client(int id, String firstname, String secondname, String surname) {
         this.id = id;
         this.firstname = firstname;
@@ -40,6 +93,9 @@ public class Client implements Person {
         this.surname = surname;
     }
 
+    /**
+     * Конструктор по-умолчанию
+     */
     public Client() {}
 
     /**
@@ -67,14 +123,22 @@ public class Client implements Person {
      */
     private String surname;
     /**
-     * Список счетов
+     * Счет
      */
     private Account account;
 
+    /**
+     * Геттер идентификатора
+     * @return идентификатор
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Сеттер идентификаторов
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
@@ -174,7 +238,7 @@ public class Client implements Person {
      *
      * @return список счетов
      */
-    public Account getClientAccounts() {
+    public Account getAccount() {
         return account;
     }
 

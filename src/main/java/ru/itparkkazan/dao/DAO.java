@@ -15,7 +15,9 @@ public interface DAO<T> {
      */
     void insert(T t);
 
-    T get(String firstParam) throws Exception;
+    default T get(String firstParam) throws Exception {
+        return null;
+    }
 
     /**
      * Метод получения информации из БД по 2 параметрам
@@ -25,7 +27,27 @@ public interface DAO<T> {
      * @return обобщенный тип объекта
      * @throws Exception ошибка при получении объекта из БД
      */
-    T get(String firstParam, String secondParam) throws Exception;
+    default T get(String firstParam, String secondParam) throws Exception {
+        return null;
+    }
 
-    List<T> getAll();
+    /**
+     *
+     * @return
+     */
+    default List<T> getAll() {
+        return null;
+    };
+
+    /**
+     *
+     * @param t
+     */
+    default void update(T t) {
+        //NOP
+    }
+
+    default T getById(int id) throws Exception {
+        return null;
+    }
 }

@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import ru.itparkkazan.beans.Account;
 import ru.itparkkazan.enums.AccountInfo;
 import ru.itparkkazan.exceptions.DataSourceServiceException;
-import ru.itparkkazan.exceptions.UnregistredClientException;
+import ru.itparkkazan.exceptions.UnregistredAccountException;
 import ru.itparkkazan.services.DataSourceService;
 
 import java.sql.PreparedStatement;
@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Класс доступа к данынм БД для клиента
+ */
 @Slf4j
 public class AccountDAO implements DAO<Account> {
     /**
@@ -20,6 +23,10 @@ public class AccountDAO implements DAO<Account> {
      */
     private DataSourceService dataSourceService = new DataSourceService();
 
+    /**
+     * Метод для вставки в БД информации о счете
+     * @param account объект счет
+     */
     @Override
     public void insert(Account account) {
         try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(AccountQuerier.INSERT_ACCOUNT_INFO)) {
@@ -34,6 +41,60 @@ public class AccountDAO implements DAO<Account> {
         }
     }
 
+    /**
+     * Метод обновления информации о счете
+     * @param account объект счет
+     */
+    @Override
+    public void update(Account account) {
+        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(AccountQuerier.UPDATE_ACCOUNT_SUM)) {
+            preparedStatement.setInt(1, account.getSum());
+            preparedStatement.setInt(2, account.getId());
+            preparedStatement.executeUpdate();
+        } catch (DataSourceServiceException e) {
+            log.error("Ошибка подключения к БД при попытке обновления записи с данными счета", e);
+        } catch (SQLException e) {
+            log.error("Ошибка запроса при попытке обновления записи с данными счета " + AccountQuerier.UPDATE_ACCOUNT_SUM, e);
+        } finally {
+            dataSourceService.closeConnection();
+        }
+    }
+
+    /**
+     * Метод получения объекта счета по идентификатору
+     * @param id идентификатор
+     * @return объект счет
+     * @throws Exception ошибка получения
+     */
+    @Override
+    public Account getById(int id) throws UnregistredAccountException {
+        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(AccountQuerier.SELECT_ACCOUNT_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int accountNumber = resultSet.getInt(AccountInfo.ACCOUNT_NUMBER.getAccountInfo());
+                int sum = resultSet.getInt(AccountInfo.SUM.getAccountInfo());
+                return new Account(id, accountNumber, sum);
+            } else {
+                throw new UnregistredAccountException("Счет с идентификаторм " + id + " отсутсвует.");
+            }
+        } catch (DataSourceServiceException e) {
+            log.error("Ошибка при получении данных о счете с идентификаторм" + id, e);
+            return null;
+        } catch (SQLException e) {
+            log.error("Ошибка при выполнении запроса " + AccountQuerier.SELECT_ACCOUNT_BY_ACCOUNT_NUMBER, e);
+            return null;
+        } finally {
+            dataSourceService.closeConnection();
+        }
+    }
+
+    /**
+     * Метод получения счета из БД по номеру
+     * @param firstParam номер счета
+     * @return объект счет
+     * @throws Exception ошибка получения
+     */
     @Override
     public Account get(String firstParam) throws Exception {
         int accountNumber = Integer.valueOf(firstParam);
@@ -45,7 +106,7 @@ public class AccountDAO implements DAO<Account> {
                 int sum = resultSet.getInt(AccountInfo.SUM.getAccountInfo());
                 return new Account(id, accountNumber, sum);
             } else {
-                throw new UnregistredClientException("Счет с номером " + accountNumber + " отсутсвует.");
+                throw new UnregistredAccountException("Счет с номером " + accountNumber + " отсутсвует.");
             }
         } catch (DataSourceServiceException e) {
             log.error("Ошибка при получении данных о счете с номером " + accountNumber, e);
@@ -58,11 +119,10 @@ public class AccountDAO implements DAO<Account> {
         }
     }
 
-    @Override
-    public Account get(String firstParam, String secondParam) throws Exception {
-        return null;
-    }
-
+    /**
+     * Метод получения всех счетов
+     * @return список счетов
+     */
     @Override
     public List<Account> getAll() {
         try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(AccountQuerier.SELECT__ALL_ACCOUNT_NUMBERS)) {
@@ -83,4 +143,5 @@ public class AccountDAO implements DAO<Account> {
             dataSourceService.closeConnection();
         }
     }
+
 }

@@ -5,6 +5,7 @@ import ru.itparkkazan.beans.Client;
 import ru.itparkkazan.dao.ClientDAO;
 import ru.itparkkazan.enums.ClientCredential;
 import ru.itparkkazan.enums.Page;
+import ru.itparkkazan.exceptions.UnregistredAccountException;
 import ru.itparkkazan.exceptions.UnregistredClientException;
 import ru.itparkkazan.utils.ServletUtil;
 import ru.itparkkazan.utils.SessionUtil;
@@ -37,7 +38,7 @@ public class AuthServlet extends HttpServlet {
             if (client == null) {
                 //TODO Вывести на GUI предупреждение "Проблемы с БД, обратитесь к администратору"
             }
-        } catch (UnregistredClientException e) {
+        } catch (UnregistredClientException | UnregistredAccountException e) {
             //TODO Вывести на GUI предупреждение с незарегистрирвоным клиентом
             log.error(e.getMessage());
         }

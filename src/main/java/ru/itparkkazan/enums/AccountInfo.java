@@ -1,21 +1,32 @@
 package ru.itparkkazan.enums;
 
+/**
+ * Перечисление, содержащее данные для счета
+ */
 public enum AccountInfo {
     /**
      * Идентификатор
      */
     ID("id"),
     /**
-     * Имя
+     * Номер счета
      */
     ACCOUNT_NUMBER("account_number"),
     /**
-     * Отчество
+     * Сумма
      */
-    SUM("sum");
+    SUM("sum"),
+    /**
+     * Сумма пополнения
+     */
+    REPLENISH_SUM("replenish_sum"),
+    /**
+     * Сумма снятия
+     */
+    WITHDRAWAL_SUM("withdrawal_sum");
 
     /**
-     * Аутентификационные данные
+     * Данные для счета
      */
     private String accountInfo;
 

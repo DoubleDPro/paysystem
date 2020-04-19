@@ -26,10 +26,19 @@ public class Account {
      */
     private int sum;
 
+    /**
+     * Конструктор счета по его номеру
+     * @param accountNumber номер счета
+     */
     public Account(int accountNumber) {
         this.accountNumber = accountNumber;
-        this.sum = sum;
     }
+
+    /**
+     * Переопределнный метод equals
+     * @param object объект
+     * @return флаг равенства
+     */
     @Override
     public boolean equals(Object object) {
         Account account = (Account) object;

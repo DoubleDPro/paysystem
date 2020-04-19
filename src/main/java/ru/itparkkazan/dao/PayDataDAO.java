@@ -8,8 +8,10 @@ import ru.itparkkazan.services.DataSourceService;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
 
+/**
+ * Класс доступа к данным БД для оплат
+ */
 @Slf4j
 public class PayDataDAO implements DAO<PayData> {
     /**
@@ -17,6 +19,10 @@ public class PayDataDAO implements DAO<PayData> {
      */
     private DataSourceService dataSourceService = new DataSourceService();
 
+    /**
+     * Метод для вставки в БД информации об оплате
+     * @param payData
+     */
     @Override
     public void insert(PayData payData) {
         try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(PayDataQuerier.INSERT_INTO_PAY_DATA_VALUES)){
@@ -32,21 +38,5 @@ public class PayDataDAO implements DAO<PayData> {
         } finally {
             dataSourceService.closeConnection();
         }
-    }
-
-    @Override
-    public PayData get(String firstParam) throws Exception {
-        return null;
-    }
-
-    @Override
-    public PayData get(String firstParam, String secondParam) throws Exception {
-        return null;
-    }
-
-    @Override
-    public List<PayData> getAll() {
-        //TODO Реализовать
-        return null;
     }
 }

@@ -39,11 +39,13 @@ public class SessionUtil {
      * @param client клиент
      */
     public static void fillSession(HttpSession httpSession, Client client) {
+        httpSession.setAttribute(ClientCredential.ID.getClientCredential(), client.getId());
         httpSession.setAttribute(ClientCredential.FIRST_NAME.getClientCredential(), client.getFirstname());
         httpSession.setAttribute(ClientCredential.SECOND_NAME.getClientCredential(), client.getSecondname());
         httpSession.setAttribute(ClientCredential.SURNAME.getClientCredential(), client.getSurname());
         httpSession.setAttribute(ClientCredential.LOGIN.getClientCredential(), client.getLogin());
         httpSession.setAttribute(ClientCredential.PSSWD.getClientCredential(), client.getPsswd());
+        httpSession.setAttribute(ClientCredential.ACCOUNT_ID.getClientCredential(), client.getAccount().getId());
         httpSession.setMaxInactiveInterval(300);
     }
 }

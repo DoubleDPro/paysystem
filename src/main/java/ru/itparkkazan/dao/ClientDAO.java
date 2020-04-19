@@ -1,9 +1,11 @@
 package ru.itparkkazan.dao;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.itparkkazan.beans.Account;
 import ru.itparkkazan.beans.Client;
 import ru.itparkkazan.enums.ClientCredential;
 import ru.itparkkazan.exceptions.DataSourceServiceException;
+import ru.itparkkazan.exceptions.UnregistredAccountException;
 import ru.itparkkazan.exceptions.UnregistredClientException;
 import ru.itparkkazan.services.DataSourceService;
 
@@ -36,6 +38,7 @@ public class ClientDAO implements DAO<Client> {
             preparedStatement.setString(3, client.getFirstname());
             preparedStatement.setString(4, client.getSecondname());
             preparedStatement.setString(5, client.getSurname());
+            preparedStatement.setInt(6, client.getAccount().getId());
             preparedStatement.executeUpdate();
         } catch (DataSourceServiceException e) {
             log.error("Ошибка подключения к БД при попытке вставки записи с данными клиента", e);
@@ -46,11 +49,6 @@ public class ClientDAO implements DAO<Client> {
         }
     }
 
-    @Override
-    public Client get(String firstParam) throws Exception {
-        return null;
-    }
-
     /**
      * Метод получения объекта клиента из БД по логину и паролю
      * @param lgn логин
@@ -59,18 +57,19 @@ public class ClientDAO implements DAO<Client> {
      * @throws UnregistredClientException исключение "Незарегистрированный клиент"
      */
     @Override
-    public Client get(String lgn, String psswd) throws UnregistredClientException {
+    public Client get(String lgn, String psswd) throws UnregistredAccountException, UnregistredClientException {
         try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(ClientQuerier.SELECT_CLIENT_BY_LGN_AND_PSSWD)) {
             preparedStatement.setString(1, lgn);
             preparedStatement.setString(2, psswd);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                //TODO Добавить инициализацию с id
-//                int id = resultSet.getInt(ID);
+                int id = resultSet.getInt(ClientCredential.ID.getClientCredential());
                 String firstName = resultSet.getString(ClientCredential.FIRST_NAME.getClientCredential());
                 String secondName = resultSet.getString(ClientCredential.SECOND_NAME.getClientCredential());
                 String surname = resultSet.getString(ClientCredential.SURNAME.getClientCredential());
-                return new Client(lgn, psswd, firstName, secondName, surname);
+                int accountId = resultSet.getInt(ClientCredential.ACCOUNT_ID.getClientCredential());
+                Account account = new AccountDAO().getById(accountId);
+                return new Client(id, lgn, psswd, firstName, secondName, surname, account);
             } else {
                 throw new UnregistredClientException("Клиент с логином " + lgn + " отсутсвует.");
             }
@@ -85,13 +84,17 @@ public class ClientDAO implements DAO<Client> {
         }
     }
 
+    /**
+     * Метод получения списка всех клиентов
+     * @return список всех клиентов
+     */
     @Override
     public List<Client> getAll() {
         try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(ClientQuerier.SELECT__ALL_CLIENTS)) {
             List<Client> allClients = new LinkedList<>();
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int id = Integer.parseInt(resultSet.getString(ClientCredential.ID.getClientCredential()));
+                int id = resultSet.getInt(ClientCredential.ID.getClientCredential());
                 String firstName = resultSet.getString(ClientCredential.FIRST_NAME.getClientCredential());
                 String secondName = resultSet.getString(ClientCredential.SECOND_NAME.getClientCredential());
                 String surname = resultSet.getString(ClientCredential.SURNAME.getClientCredential());

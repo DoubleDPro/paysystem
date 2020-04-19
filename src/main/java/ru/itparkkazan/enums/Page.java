@@ -46,7 +46,7 @@ public enum Page {
     /**
      * Геттер названия страницы
      *
-     * @return
+     * @return адрес страницы
      */
     public String getPage() {
         return page;
