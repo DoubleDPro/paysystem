@@ -9,7 +9,12 @@
     <tr>
         <td width="30%" align="left"><img src="${pageContext.servletContext.contextPath}/pics/logo.png" width="75"/></td>
         <td width="40%" align="center"><h1>Профиль</h1></td>
-        <td width="30%" align="right">
+        <td align="right">
+            <form id="logoutForm" action="../logout" method="post">
+                <input id="logoutButton" type="submit" name="logoutButton" value="Выйти" style="width: 200px; height: 50px; font-size: medium"/>
+            </form>
+        </td>
+        <td align="right">
             <form id="profileForm" action="enterSystem.jsp" method="post">
                 <input id="profileButton" type="submit" name="profileButton" value="В систему" style="width: 200px; height: 50px; font-size: medium"/>
             </form>

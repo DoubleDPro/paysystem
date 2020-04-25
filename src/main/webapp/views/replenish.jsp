@@ -10,7 +10,7 @@
         <table style="height: 100%">
             <tr>
                 <td><label>Сумма</label></td>
-                <td><input type="number" name="replenish_sum"></td>
+                <td><input type="number" min="1" max="1000" name="replenish_sum"></td>
             </tr>
             <tr>
                 <td colspan="2"><input style="width: 100%" type="submit" value="Пополнить"></td>

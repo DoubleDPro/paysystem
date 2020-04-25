@@ -66,7 +66,6 @@ public class RegClientServlet extends HttpServlet {
         ClientDAO clientDAO = new ClientDAO();
         clientDAO.insert(client);
         HttpSession httpSession = httpServletRequest.getSession();
-        httpSession.invalidate();
         try {
             client = clientDAO.get(clientCredentials.get(ClientCredential.LOGIN.getClientCredential()),
                     clientCredentials.get(ClientCredential.PSSWD.getClientCredential()));

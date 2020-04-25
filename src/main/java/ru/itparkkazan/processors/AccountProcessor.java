@@ -10,6 +10,14 @@ import ru.itparkkazan.exceptions.ReplenishException;
 @Slf4j
 public class AccountProcessor {
 
+    private static void validateReplenisSum(int replenishSum) throws ReplenishException {
+        log.info("Валидация суммы пополнения счета");
+        if (replenishSum <= 0) {
+            log.error("Ошибка при пополнении - сумма пополнения меньше 0");
+            throw new ReplenishException("Сумма пополнения счета меньше 0.");
+        }
+    }
+
     /**
      * Метод пополнения счета
      *
@@ -17,16 +25,10 @@ public class AccountProcessor {
      * @param replenishSum сумма пополнения
      * @return флаг пополнения счета
      */
-    public static void replenishAccount(Account account, int replenishSum) throws ReplenishException {
+    public static synchronized void replenishAccount(Account account, int replenishSum) throws ReplenishException {
         log.info(String.join(" ", "Пополнение счета", String.valueOf(account.getAccountNumber()), "на сумму", String.valueOf(replenishSum)));
-        if (replenishSum <= 0) {
-            log.error("Ошибка при пополнении - сумма пополнения меньше 0");
-            throw new ReplenishException("Сумма пополнения счета меньше 0.");
-        }
-        //TODO переписать в одну строку
-        int currentSum = account.getSum();
-        int resultSum = currentSum + replenishSum;
-        account.setSum(resultSum);
+        validateReplenisSum(replenishSum);
+        account.setSum(account.getSum() + replenishSum);
         log.info(String.join(" ", "Пополнение счета", String.valueOf(account.getAccountNumber()), "прошло успешно. Текущая сумма на счете", String.valueOf(account.getSum())));
     }
 
@@ -37,7 +39,7 @@ public class AccountProcessor {
      * @param writeOffSum сумма списания
      */
     //TODO релизовать метод списания со счета
-    public static void writeOffAccount(Account account, int writeOffSum) {
+    public static void withdrawalAccount(Account account, int writeOffSum) {
         /*
         Реализовать метод списания со счета.
         Во время списания выполнить проверку на достаточность средств.

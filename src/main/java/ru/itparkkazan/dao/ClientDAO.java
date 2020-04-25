@@ -98,13 +98,16 @@ public class ClientDAO implements DAO<Client> {
                 String firstName = resultSet.getString(ClientCredential.FIRST_NAME.getClientCredential());
                 String secondName = resultSet.getString(ClientCredential.SECOND_NAME.getClientCredential());
                 String surname = resultSet.getString(ClientCredential.SURNAME.getClientCredential());
-                allClients.add(new Client(id, firstName, secondName, surname));
+                int accountId = resultSet.getInt(ClientCredential.ACCOUNT_ID.getClientCredential());
+                AccountDAO accountDAO = new AccountDAO();
+                Account account = accountDAO.getById(accountId);
+                allClients.add(new Client(id, firstName, secondName, surname, account));
             }
             return allClients;
         } catch (DataSourceServiceException e) {
             log.error("Ошибка при получении списка всех клиентов", e);
             return null;
-        } catch (SQLException e) {
+        } catch (SQLException | UnregistredAccountException e) {
             log.error("Ошибка при выполнении запроса " + ClientQuerier.SELECT__ALL_CLIENTS, e);
             return null;
         } finally {

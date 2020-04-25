@@ -4,6 +4,9 @@ import ru.itparkkazan.beans.Account;
 import ru.itparkkazan.dao.AccountDAO;
 import ru.itparkkazan.enums.AccountInfo;
 import ru.itparkkazan.enums.ClientCredential;
+import ru.itparkkazan.enums.Page;
+import ru.itparkkazan.processors.AccountProcessor;
+import ru.itparkkazan.utils.ServletUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,15 +27,15 @@ public class ReplenishServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String sum = httpServletRequest.getParameter(AccountInfo.REPLENISH_SUM.getAccountInfo());
-        //TODO Добавить валидацию суммы (положительные цифры)
         AccountDAO accountDAO = new AccountDAO();
         Account currentAccount = null;
         try {
             currentAccount = accountDAO.getById((Integer) httpServletRequest.getSession().getAttribute(ClientCredential.ACCOUNT_ID.getClientCredential()));
+            AccountProcessor.replenishAccount(currentAccount, Integer.parseInt(sum));
+            accountDAO.update(currentAccount);
         } catch (Exception e) {
-            //TODO Обработать исключения
+            ServletUtil.redirectInsideServlet(httpServletRequest, httpServletResponse, Page.ERROR_PAGE.getPage());
         }
-        currentAccount.setSum(currentAccount.getSum() + Integer.parseInt(sum));
-        accountDAO.update(currentAccount);
+
     }
 }

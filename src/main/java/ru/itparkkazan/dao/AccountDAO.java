@@ -103,7 +103,7 @@ public class AccountDAO implements DAO<Account> {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt(AccountInfo.ID.getAccountInfo());
-                int sum = resultSet.getInt(AccountInfo.SUM.getAccountInfo());
+                 int sum = resultSet.getInt(AccountInfo.SUM.getAccountInfo());
                 return new Account(id, accountNumber, sum);
             } else {
                 throw new UnregistredAccountException("Счет с номером " + accountNumber + " отсутсвует.");

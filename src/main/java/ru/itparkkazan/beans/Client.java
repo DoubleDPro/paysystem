@@ -86,11 +86,12 @@ public class Client implements Person {
      * @param secondname отчество
      * @param surname фамилия
      */
-    public Client(int id, String firstname, String secondname, String surname) {
+    public Client(int id, String firstname, String secondname, String surname, Account account) {
         this.id = id;
         this.firstname = firstname;
         this.secondname = secondname;
         this.surname = surname;
+        this.account = account;
     }
 
     /**
