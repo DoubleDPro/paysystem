@@ -7,9 +7,9 @@
 </head>
 <body>
 <jsp:include page="headers/index_header.jsp"/>
-<div style="width: 100%; line-height: 800px; vertical-align: bottom">
+<div style="width: 100%; line-height: 600px; vertical-align: bottom">
     <div align="center" style="background-color: gray">
-        <form id="clientRegistrationForm" action="../regClient" method="post" >
+        <form id="clientRegistrationForm" action="${pageContext.servletContext.contextPath}/regClient" method="post" >
             <label>Логин</label>
             <input type="text" name="login"/>
             <label>Пароль</label>

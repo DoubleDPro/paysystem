@@ -1,7 +1,11 @@
 package ru.itparkkazan.utils;
 
+import ru.itparkkazan.beans.Account;
 import ru.itparkkazan.beans.Client;
+import ru.itparkkazan.dao.AccountDAO;
+import ru.itparkkazan.enums.AccountInfo;
 import ru.itparkkazan.enums.ClientCredential;
+import ru.itparkkazan.exceptions.UnregistredAccountException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -46,6 +50,19 @@ public class SessionUtil {
         httpSession.setAttribute(ClientCredential.LOGIN.getClientCredential(), client.getLogin());
         httpSession.setAttribute(ClientCredential.PSSWD.getClientCredential(), client.getPsswd());
         httpSession.setAttribute(ClientCredential.ACCOUNT_ID.getClientCredential(), client.getAccount().getId());
+        httpSession.setAttribute(AccountInfo.ACCOUNT_NUMBER.getAccountInfo(), client.getAccount().getAccountNumber());
+        httpSession.setAttribute(AccountInfo.SUM.getAccountInfo(), client.getAccount().getSum());
         httpSession.setMaxInactiveInterval(300);
+    }
+
+    public static Client getClientFromSession(HttpSession httpSession) throws UnregistredAccountException {
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = accountDAO.getById((int) httpSession.getAttribute(ClientCredential.ACCOUNT_ID.getClientCredential()));
+        return new Client(
+                (int) httpSession.getAttribute(ClientCredential.ID.getClientCredential()),
+                (String) httpSession.getAttribute(ClientCredential.FIRST_NAME.getClientCredential()),
+                (String)  httpSession.getAttribute(ClientCredential.SECOND_NAME.getClientCredential()),
+                (String)  httpSession.getAttribute(ClientCredential.SURNAME.getClientCredential()),
+                account);
     }
 }

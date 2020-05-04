@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <td><label>Сумма</label></td>
-                <td><input type="number" name="transferSum"/></td>
+                <td><input style="width: 100%" type="number" min="1" max="1000" name="transferSum"/></td>
             </tr>
             <tr>
                 <td colspan="2"><input style="width: 100%" type="submit" value="Отправить"></td>

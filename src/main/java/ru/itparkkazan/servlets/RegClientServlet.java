@@ -41,6 +41,7 @@ public class RegClientServlet extends HttpServlet {
         //TODO доработать пробоброс на страницу ошибок
         Map<String, String> clientCredentials = SessionUtil.readClientCredentials(httpServletRequest);
         AccountDAO accountDAO = new AccountDAO();
+        //TODO Добавить проверку на Null
         List<Account> allAccountNumbers = accountDAO.getAll();
         int accountNumber;
         Account currentAccount;

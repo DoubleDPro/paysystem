@@ -3,6 +3,9 @@ package ru.itparkkazan.servlets;
 import ru.itparkkazan.beans.Account;
 import ru.itparkkazan.dao.AccountDAO;
 import ru.itparkkazan.enums.ClientCredential;
+import ru.itparkkazan.enums.Page;
+import ru.itparkkazan.processors.AccountProcessor;
+import ru.itparkkazan.utils.ServletUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,20 +28,16 @@ public class TransferServlet  extends HttpServlet {
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         int fromClientAccountId = (Integer) httpServletRequest.getSession().getAttribute(ClientCredential.ACCOUNT_ID.getClientCredential());
         int toClientAccountId = Integer.parseInt(httpServletRequest.getParameter("toClient"));
-        int sum = Integer.parseInt(httpServletRequest.getParameter("transferSum"));
+        int transferSum = Integer.parseInt(httpServletRequest.getParameter("transferSum"));
         AccountDAO accountDAO = new AccountDAO();
-        Account fromClientAccount = null;
-        Account toClientAccount = null;
         try {
-            fromClientAccount = accountDAO.getById(fromClientAccountId);
-            toClientAccount = accountDAO.getById(toClientAccountId);
+            Account fromClientAccount = accountDAO.getById(fromClientAccountId);
+            Account toClientAccount = accountDAO.getById(toClientAccountId);
+            AccountProcessor.transferMoney(fromClientAccount, toClientAccount, transferSum);
+            accountDAO.update(fromClientAccount);
+            accountDAO.update(toClientAccount);
         } catch (Exception e) {
-            //TODO Обработать исключения
+            ServletUtil.redirectInsideServlet(httpServletRequest, httpServletResponse, Page.ERROR_PAGE.getPage());
         }
-        //TODO Добавить проверку на достаточность средств на счете
-        fromClientAccount.setSum(fromClientAccount.getSum() - sum);
-        toClientAccount.setSum(toClientAccount.getSum() + sum);
-        accountDAO.update(fromClientAccount);
-        accountDAO.update(toClientAccount);
     }
 }

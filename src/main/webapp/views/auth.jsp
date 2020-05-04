@@ -7,9 +7,9 @@
 </head>
 <body>
 <jsp:include page="headers/index_header.jsp"/>
-<div style="width: 100%; height: 800px;  display: flex; justify-content: center; align-items: center; background-color: gray">
+<div style="width: 100%; height: 600px;  display: flex; justify-content: center; align-items: center; background-color: gray">
     <div align="center" style="width: 100%; height: 160px; background-color: #5a5a5a">
-    <form style="width: 100%; height: 100%" id="clientAuthForm" action="../auth" method="post">
+    <form style="width: 100%; height: 100%" id="clientAuthForm" action="${pageContext.servletContext.contextPath}/auth" method="post">
         <table style="height: 100%">
             <tr>
                 <td>

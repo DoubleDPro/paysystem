@@ -28,9 +28,8 @@ public class ReplenishServlet extends HttpServlet {
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String sum = httpServletRequest.getParameter(AccountInfo.REPLENISH_SUM.getAccountInfo());
         AccountDAO accountDAO = new AccountDAO();
-        Account currentAccount = null;
         try {
-            currentAccount = accountDAO.getById((Integer) httpServletRequest.getSession().getAttribute(ClientCredential.ACCOUNT_ID.getClientCredential()));
+            Account currentAccount = accountDAO.getById((Integer) httpServletRequest.getSession().getAttribute(ClientCredential.ACCOUNT_ID.getClientCredential()));
             AccountProcessor.replenishAccount(currentAccount, Integer.parseInt(sum));
             accountDAO.update(currentAccount);
         } catch (Exception e) {

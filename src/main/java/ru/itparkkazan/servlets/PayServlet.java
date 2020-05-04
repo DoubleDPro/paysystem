@@ -3,7 +3,12 @@ package ru.itparkkazan.servlets;
 import lombok.extern.slf4j.Slf4j;
 import ru.itparkkazan.beans.Client;
 import ru.itparkkazan.beans.PayData;
+import ru.itparkkazan.dao.AccountDAO;
 import ru.itparkkazan.dao.PayDataDAO;
+import ru.itparkkazan.enums.Page;
+import ru.itparkkazan.processors.AccountProcessor;
+import ru.itparkkazan.utils.ServletUtil;
+import ru.itparkkazan.utils.SessionUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,10 +33,15 @@ public class PayServlet extends HttpServlet {
         String payTargetCount = httpServletRequest.getParameter("payTargetCount");
         String paySum = httpServletRequest.getParameter("paySum");
         PayDataDAO payDataDAO = new PayDataDAO();
-        //TODO Добавить создание объекта клиента и SessionUtil из данных по сессии
-        Client client = new Client();
-        client.setId(1);
-        PayData payData = new PayData(client, payTargetCount, Integer.parseInt(paySum), new Date());
-        payDataDAO.insert(payData);
+        try {
+            Client payClient = SessionUtil.getClientFromSession(httpServletRequest.getSession());
+            AccountProcessor.withdrawalAccount(payClient.getAccount(), Integer.parseInt(paySum));
+            AccountDAO accountDAO = new AccountDAO();
+            accountDAO.update(payClient.getAccount());
+            PayData payData = new PayData(payClient, payTargetCount, Integer.parseInt(paySum), new Date());
+            payDataDAO.insert(payData);
+        } catch (Exception e) {
+            ServletUtil.redirectInsideServlet(httpServletRequest, httpServletResponse, Page.ERROR_PAGE.getPage());
+        }
     }
 }

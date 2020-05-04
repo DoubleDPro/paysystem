@@ -6,7 +6,7 @@
 </head>
 <body>
 <div align="center" style="width: 100%; height: 160px; background-color: #5a5a5a">
-    <form style="width: 100%; height: 100%" id="replenishForm" action="../replenish" method="post">
+    <form style="width: 100%; height: 100%" id="replenishForm" action="${pageContext.servletContext.contextPath}/replenish" method="post">
         <table style="height: 100%">
             <tr>
                 <td><label>Сумма</label></td>

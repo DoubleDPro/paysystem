@@ -7,9 +7,9 @@
 </head>
 <body>
 <jsp:include page="headers/profile_header.jsp"/>
-<div style="width: 100%; height: 800px;  display: flex; justify-content: center; align-items: center; background-color: gray">
+<div style="width: 100%; height: 600px;  display: flex; justify-content: center; align-items: center; background-color: gray">
     <div align="center" style="width: 100%; height: 160px; background-color: #5a5a5a">
-        <form style="width: 100%; height: 100%" id="clientAuthForm" action="../auth" method="post">
+        <form style="width: 100%; height: 100%" id="clientAuthForm" action="${pageContext.servletContext.contextPath}/auth" method="post">
             <table style="height: 100%">
                 <tr>
                     <td>Логин</td>
@@ -27,6 +27,13 @@
                     <td>Фамилия</td>
                     <td>"${sessionScope.surname}"</td>
                 </tr>
+                <tr>
+                    <td>Номер счета</td>
+                    <td>"${sessionScope.account_number}"</td>
+                </tr>                <tr>
+                <td>Сумма</td>
+                <td>"${sessionScope.sum}"</td>
+            </tr>
             </table>
         </form>
     </div>

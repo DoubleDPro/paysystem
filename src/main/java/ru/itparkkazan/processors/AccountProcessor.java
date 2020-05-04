@@ -3,6 +3,7 @@ package ru.itparkkazan.processors;
 import lombok.extern.slf4j.Slf4j;
 import ru.itparkkazan.beans.Account;
 import ru.itparkkazan.exceptions.ReplenishException;
+import ru.itparkkazan.exceptions.WithdrawalException;
 
 /**
  * Класс, содержащий операции над счетами
@@ -14,7 +15,7 @@ public class AccountProcessor {
         log.info("Валидация суммы пополнения счета");
         if (replenishSum <= 0) {
             log.error("Ошибка при пополнении - сумма пополнения меньше 0");
-            throw new ReplenishException("Сумма пополнения счета меньше 0.");
+            throw new ReplenishException("Сумма пополнения счета меньше 0");
         }
     }
 
@@ -32,38 +33,56 @@ public class AccountProcessor {
         log.info(String.join(" ", "Пополнение счета", String.valueOf(account.getAccountNumber()), "прошло успешно. Текущая сумма на счете", String.valueOf(account.getSum())));
     }
 
-    /**
-     * Метоод списания со счета
-     *
-     * @param account     счет
-     * @param writeOffSum сумма списания
-     */
-    //TODO релизовать метод списания со счета
-    public static void withdrawalAccount(Account account, int writeOffSum) {
-        /*
-        Реализовать метод списания со счета.
-        Во время списания выполнить проверку на достаточность средств.
-        В случае, если средств недостаточно для списания (остаток должен быть не меньше 0),
-        прокинуть исключение WriteOffException с соответствующим описанием.
-        Написать тест.
-         */
+    private static boolean validateWithdrawalSum(int accountSum, int withdrawalSum) throws WithdrawalException {
+        log.info("Валидация суммы списания счета");
+        if (withdrawalSum <= 0) {
+            log.error("Ошибка при списании - сумма списания меньше 0");
+            throw new WithdrawalException("Сумма списания счета меньше 0");
+        } else if (accountSum < withdrawalSum) {
+            log.error("Ошибка при списании - сумма списания больше суммы на счете");
+            throw new WithdrawalException("Сумма списания больше суммы счете");
+        }
+        return true;
     }
 
     /**
-     * Метод перевода со счета на счет
-     *
-     * @param fromAccount исходный счет
-     * @param toAccount   целевой счет
-     * @param sum         сумма
+     * Метод списания со счета
+     * @param account
+     * @param withdrawaslSum
+     * @throws WithdrawalException
      */
-    //TODO реализовать метод перевода с одного счета на другой
-    public static void transferMoney(Account fromAccount, Account toAccount, int sum) {
-        /*
-        Реализовать метод перевода средств с одного счета на другой.
-        Во время перевода выполнить проверку на достаточность средств на счету, откуда перевод.
-        Если средств недостаточно, прокинуть исключение WriteOffException с соответствующим описанием.
-        Если сумма перевода отрицательная, прокинуть исключение ReplenishException с соответствующим описанием.
-         */
+    public static void withdrawalAccount(Account account, int withdrawaslSum) throws WithdrawalException {
+        log.info(String.join(" ", "Списание счета", String.valueOf(account.getAccountNumber()), "на сумму", String.valueOf(withdrawaslSum)));
+        validateWithdrawalSum(account.getSum(), withdrawaslSum);
+        account.setSum(account.getSum() - withdrawaslSum);
+        log.info(String.join(" ", "Списание счета", String.valueOf(account.getAccountNumber()), "прошло успешно. Текущая сумма на счете", String.valueOf(account.getSum())));
     }
 
+    /**
+     * Метод перевода средств
+     * @param fromAccount
+     * @param toAccount
+     * @param transferSum
+     * @throws WithdrawalException
+     * @throws ReplenishException
+     */
+    public static void transferMoney(Account fromAccount, Account toAccount, int transferSum) throws WithdrawalException, ReplenishException {
+        log.info(String.join(" ",
+                "Перевод средств со счета",
+                String.valueOf(fromAccount.getAccountNumber()),
+                "на счет",
+                String.valueOf(toAccount.getAccountNumber()),
+                "на сумму",
+                String.valueOf(transferSum)));
+        withdrawalAccount(fromAccount, transferSum);
+        replenishAccount(toAccount, transferSum);
+        log.info(String.join(" ",
+                "Перевод средств со счета",
+                String.valueOf(fromAccount.getAccountNumber()),
+                "на счет",
+                String.valueOf(toAccount.getAccountNumber()),
+                "на сумму",
+                String.valueOf(transferSum)),
+                "прошел успешно");
+    }
 }

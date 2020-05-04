@@ -6,15 +6,15 @@
 </head>
 <body>
     <div align="center" style="width: 100%; height: 160px; background-color: #5a5a5a">
-        <form style="width: 100%; height: 100%" id="payForm" action="/pay" method="post">
+        <form style="width: 100%; height: 100%" id="payForm" action="${pageContext.servletContext.contextPath}/pay" method="post">
             <table style="height: 100%">
                 <tr>
                     <td><label>Целевой счет</label></td>
-                    <td><input type="number" name="payTargetCount"></td>
+                    <td><input style="width:100%" type="number" name="payTargetCount"></td>
                 </tr>
                 <tr>
                     <td><label>Сумма</label></td>
-                    <td><input type="number" name="paySum"></td>
+                    <td><input style="width:100%" type="number" min="1" max="1000" name="paySum"></td>
                 </tr>
                 <tr>
                     <td colspan="2"><input style="width: 100%" type="submit" value="Оплатить"></td>

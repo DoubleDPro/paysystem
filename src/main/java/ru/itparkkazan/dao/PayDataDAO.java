@@ -26,7 +26,7 @@ public class PayDataDAO implements DAO<PayData> {
     @Override
     public void insert(PayData payData) {
         try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(PayDataQuerier.INSERT_INTO_PAY_DATA_VALUES)){
-            preparedStatement.setInt(1, payData.getClient().getId() );
+            preparedStatement.setInt(1, payData.getClient().getId());
             preparedStatement.setString(2, payData.getTargetAccount());
             preparedStatement.setInt(3, payData.getSum());
             preparedStatement.setTimestamp(4, new Timestamp(payData.getDate().getTime()));
