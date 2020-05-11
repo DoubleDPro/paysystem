@@ -13,7 +13,7 @@
             <label>Логин</label>
             <input type="text" name="login"/>
             <label>Пароль</label>
-            <input type="password" name="psswd"/>
+            <input type="password" name="pswd"/>
             <label>Фамиля</label>
             <input type="text" name="surname"/>
             <label>Имя</label>

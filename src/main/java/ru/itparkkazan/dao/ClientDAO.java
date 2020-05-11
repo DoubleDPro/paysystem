@@ -90,7 +90,7 @@ public class ClientDAO implements DAO<Client> {
      */
     @Override
     public List<Client> getAll() {
-        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(ClientQuerier.SELECT__ALL_CLIENTS)) {
+        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(ClientQuerier.SELECT_ALL_CLIENTS)) {
             List<Client> allClients = new LinkedList<>();
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -108,7 +108,35 @@ public class ClientDAO implements DAO<Client> {
             log.error("Ошибка при получении списка всех клиентов", e);
             return null;
         } catch (SQLException | UnregistredAccountException e) {
-            log.error("Ошибка при выполнении запроса " + ClientQuerier.SELECT__ALL_CLIENTS, e);
+            log.error("Ошибка при выполнении запроса " + ClientQuerier.SELECT_ALL_CLIENTS, e);
+            return null;
+        } finally {
+            dataSourceService.closeConnection();
+        }
+    }
+
+    @Override
+    public Client getById(int id) throws UnregistredClientException {
+        try (PreparedStatement preparedStatement = dataSourceService.getPreparedStatement(ClientQuerier.SELECT_CLIENT_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String firstName = resultSet.getString(ClientCredential.FIRST_NAME.getClientCredential());
+                String secondName = resultSet.getString(ClientCredential.SECOND_NAME.getClientCredential());
+                String surname = resultSet.getString(ClientCredential.SURNAME.getClientCredential());
+                String lgn = resultSet.getString(ClientCredential.LOGIN.getClientCredential());
+                String psswd = resultSet.getString(ClientCredential.PSSWD.getClientCredential());
+                int accountId = resultSet.getInt(ClientCredential.ACCOUNT_ID.getClientCredential());
+                Account account = new AccountDAO().getById(accountId);
+                return new Client(id, lgn, psswd, firstName, secondName, surname, account);
+            } else {
+                throw new UnregistredClientException("Клиент с идентификатором " + id + " отсутсвует.");
+            }
+        } catch (DataSourceServiceException e) {
+            log.error("Ошибка при получении списка всех клиентов", e);
+            return null;
+        } catch (SQLException | UnregistredAccountException e) {
+            log.error("Ошибка при выполнении запроса " + ClientQuerier.SELECT_ALL_CLIENTS, e);
             return null;
         } finally {
             dataSourceService.closeConnection();

@@ -24,7 +24,7 @@
                     <label>Пароль</label>
                 </td>
                 <td>
-                    <input type="password" name="psswd">
+                    <input type="password" name="pswd">
                 </td>
             </tr>
             <tr>

@@ -25,6 +25,10 @@ public enum Page {
      */
     SUCCESS_AUTH_PAGE("/views/successAuthClient.jsp"),
     /**
+     * Страница профиля
+     */
+    PROFILE_PAGE("/views/profile.jsp"),
+    /**
      * Страница с ошибкой
      */
     ERROR_PAGE("/views/error.jsp");

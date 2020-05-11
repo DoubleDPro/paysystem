@@ -12,5 +12,7 @@ public class ClientQuerier {
     /**
      * SQL-запрос для получения из БД информацию со списком всех клиентов
      */
-    protected static final String SELECT__ALL_CLIENTS = "SELECT * FROM PAYSYSTEM.PAYSYSTEM.CLIENT";
+    protected static final String SELECT_ALL_CLIENTS = "SELECT * FROM PAYSYSTEM.PAYSYSTEM.CLIENT";
+
+    protected static final String SELECT_CLIENT_BY_ID = "SELECT * FROM PAYSYSTEM.PAYSYSTEM.CLIENT WHERE ID = ?";
 }
