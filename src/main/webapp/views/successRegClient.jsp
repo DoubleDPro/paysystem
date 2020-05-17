@@ -7,16 +7,29 @@
 </head>
 <body>
 <jsp:include page="headers/index_header.jsp"/>
-<div style="width: 100%; line-height: 600px; vertical-align: bottom">
-    <div align="center" style="background-color: gray">
-        <form id="clientSuccessRegistrationForm" action="enterSystem.jsp" method="post">
-            <label>Пользователь </label>
-            <output>"${sessionScope.firstname}"</output>
-            <label> успешно зарегистрирован!</label>
-            <br>
-            <input type="submit" name="enterSystem" value="Перейти в систему" />
+
+<div style="width: 100%; height: 600px;  display: flex; justify-content: center; align-items: center; background-color: gray">
+    <div align="center" style="width: 100%; height: 160px; background-color: #5a5a5a">
+        <form id="clientSuccessRegistrationForm" style="height: 100%" action="${pageContext.servletContext.contextPath}/enterSystem.jsp" method="post">
+            <table style="height: 100%">
+                <tr>
+                    <td>
+                        <label>Пользователь </label>
+                        <output>"${sessionScope.firstname}"</output>
+                        <label> успешно зарегистрирован!</label>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <input type="submit" name="enterSystem" value="Перейти в систему"/>
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
 </div>
+
+
 </body>
 </html>

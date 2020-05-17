@@ -8,7 +8,6 @@ public interface Person {
      * Метод для получения полного имени
      * @return
      */
-    //TODO Описать методы интерфейса персоны
     String getFullName();
 
     /**

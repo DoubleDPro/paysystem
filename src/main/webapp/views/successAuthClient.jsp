@@ -9,7 +9,7 @@
 <jsp:include page="headers/index_header.jsp"/>
 <div style="width: 100%; height: 600px;  display: flex; justify-content: center; align-items: center; background-color: gray">
     <div align="center" style="width: 100%; height: 160px; background-color: #5a5a5a">
-        <form id="clientSuccessAuthentificationForm" style="height: 100%" action="enterSystem.jsp" method="post">
+        <form id="clientSuccessAuthentificationForm" style="height: 100%" action="${pageContext.servletContext.contextPath}/enterSystem.jsp" method="post">
             <table style="height: 100%">
                 <tr>
                     <td>

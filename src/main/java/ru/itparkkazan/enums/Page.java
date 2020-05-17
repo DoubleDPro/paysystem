@@ -7,11 +7,11 @@ public enum Page {
     /**
      * Главная страница
      */
-    INDEX_PAGE("index.jsp"),
+    INDEX_PAGE("/index.jsp"),
     /**
      * Страница регистрации
      */
-    REG_PAGE("/views/registration.jsp"),
+    REG_PAGE("/auth/registration.jsp"),
     /**
      * Страница успешной регистрации
      */
@@ -19,7 +19,7 @@ public enum Page {
     /**
      * Страница аутентификации
      */
-    AUTH_PAGE("/views/auth.jsp"),
+    AUTH_PAGE("/auth/auth.jsp"),
     /**
      * Страница успешной аутентификации
      */

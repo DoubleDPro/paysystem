@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "transfer", urlPatterns = "/transfer")
 public class TransferServlet  extends HttpServlet {
-    //TODO Переписать все относительные пути в jsp на contextPath
 
     /**
      *  Метод обработки POST-запроса
